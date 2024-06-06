@@ -1,0 +1,76 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+from sklearn.datasets import fetch_openml
+
+boston = fetch_openml(data_id=42165, as_frame=True)
+print(boston.data)
+print(boston.target)
+
+  df_x = pd.DataFrame(boston.data,columns=boston.feature_names)
+df_y = pd.DataFrame(boston.target)
+
+
+  data = pd.read_csv('/content/drive/MyDrive/BostonHousing (1).csv')
+
+print(data.head())
+print(data.describe())
+
+
+  import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_percentage_error
+import matplotlib.pyplot as plt
+
+
+df = pd.read_csv("/content/drive/MyDrive/BostonHousing (1).csv")
+
+
+  df.dropna(inplace=True)
+
+df.drop_duplicates(inplace=True)
+
+num_cols = df.select_dtypes(include=np.number)
+z_scores = np.abs((num_cols - num_cols.mean()) / num_cols.std())
+outlier_mask = (z_scores < 3).all(axis=1)
+df_cleaned = df[outlier_mask]
+
+ X = df.drop("tax", axis=1)
+y = df["tax"]
+
+
+X = pd.get_dummies(X)  
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+
+  model = LinearRegression()
+model.fit(X_train, y_train)
+
+
+  y_pred = model.predict(X_test)
+
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+r2 = r2_score(y_test, y_pred)
+
+ mbs = mean_absolute_percentage_error(y_test, y_pred)
+print("mean_absolute_percentage_error: ", mbs)
+print(f"Root Mean Squared Error: {rmse}")
+print(f"R-squared Score: {r2}")
+
+
+  plt.scatter(y_test, y_pred)
+plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], color='pink', linestyle='--', lw=2)
+plt.xlabel("Actual Sale Price")
+plt.ylabel("Predicted Sale Price")
+plt.title("Actual vs Predicted Sale Price")
+plt.show()
+
+
+  
